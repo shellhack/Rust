@@ -1,0 +1,43 @@
+use std::io;
+
+fn main() {
+    println!("Conversor de Monedas en Rust");
+    println!("Por favor, ingrese la moneda de origen (por ejemplo, USD):");
+    
+    let mut from_currency = String::new();
+    io::stdin().read_line(&mut from_currency).expect("Fallo al leer la entrada.");
+    let from_currency = from_currency.trim();
+
+    println!("Por favor, ingrese la moneda de destino (por ejemplo, EUR):");
+    
+    let mut to_currency = String::new();
+    io::stdin().read_line(&mut to_currency).expect("Fallo al leer la entrada.");
+    let to_currency = to_currency.trim();
+
+    println!("Por favor, ingrese la cantidad en {} que desea convertir:", from_currency);
+    
+    let mut amount = String::new();
+    io::stdin().read_line(&mut amount).expect("Fallo al leer la entrada.");
+    let amount: f64 = match amount.trim().parse() {
+        Ok(num) => num,
+        Err(_) => {
+            println!("Entrada no válida. Por favor, introduzca un número válido.");
+            return;
+        }
+    };
+
+    println!("Por favor, ingrese la tasa de cambio de {} a {}: (por ejemplo, 1.2)", from_currency, to_currency);
+    
+    let mut exchange_rate = String::new();
+    io::stdin().read_line(&mut exchange_rate).expect("Fallo al leer la entrada.");
+    let exchange_rate: f64 = match exchange_rate.trim().parse() {
+        Ok(num) => num,
+        Err(_) => {
+            println!("Entrada no válida. Por favor, introduzca un número válido.");
+            return;
+        }
+    };
+
+    let converted_amount = amount * exchange_rate;
+    println!("{} {} es equivalente a {} {}.", amount, from_currency, converted_amount, to_currency);
+}
