@@ -1,0 +1,58 @@
+use std::io;
+
+fn main() {
+    println!("Conversor de Unidades de Medida en Rust");
+    println!("Seleccione una opción:");
+    println!("1. Convertir de kilómetros a millas");
+    println!("2. Convertir de millas a kilómetros");
+    println!("3. Salir");
+
+    let mut choice = String::new();
+    io::stdin().read_line(&mut choice).expect("Fallo al leer la entrada.");
+    let choice: u32 = match choice.trim().parse() {
+        Ok(num) => num,
+        Err(_) => {
+            println!("Entrada no válida. Por favor, introduzca un número válido.");
+            return;
+        }
+    };
+
+    match choice {
+        1 => {
+            println!("Ingrese la distancia en kilómetros:");
+            let mut kilometers = String::new();
+            io::stdin().read_line(&mut kilometers).expect("Fallo al leer la entrada.");
+            let kilometers: f64 = match kilometers.trim().parse() {
+                Ok(num) => num,
+                Err(_) => {
+                    println!("Entrada no válida. Por favor, introduzca un número válido.");
+                    return;
+                }
+            };
+
+            let miles = kilometers * 0.621371;
+            println!("{} kilómetros equivalen a {} millas.", kilometers, miles);
+        }
+        2 => {
+            println!("Ingrese la distancia en millas:");
+            let mut miles = String::new();
+            io::stdin().read_line(&mut miles).expect("Fallo al leer la entrada.");
+            let miles: f64 = match miles.trim().parse() {
+                Ok(num) => num,
+                Err(_) => {
+                    println!("Entrada no válida. Por favor, introduzca un número válido.");
+                    return;
+                }
+            };
+
+            let kilometers = miles / 0.621371;
+            println!("{} millas equivalen a {} kilómetros.", miles, kilometers);
+        }
+        3 => {
+            println!("Saliendo del conversor de unidades de medida.");
+        }
+        _ => {
+            println!("Opción no válida. Por favor, seleccione una opción válida.");
+        }
+    }
+}
