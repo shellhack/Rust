@@ -1,0 +1,46 @@
+use std::fs;
+use std::io;
+use std::path::Path;
+
+fn search_files(path: &Path, target: &str) -> io::Result<()> {
+    for entry in fs::read_dir(path)? {
+        let entry = entry?;
+        let file_name = entry.file_name();
+        let file_path = entry.path();
+
+        if file_name.to_str().unwrap_or("").contains(target) {
+            println!("Encontrado: {}", file_path.display());
+        }
+
+        if file_path.is_dir() {
+            search_files(&file_path, target)?;
+        }
+    }
+
+    Ok(())
+}
+
+fn main() {
+    println!("Buscador de Archivos en Rust");
+    println!("Directorio base:");
+    
+    let mut base_path = String::new();
+    io::stdin().read_line(&mut base_path).expect("Fallo al leer la entrada.");
+    let base_path = base_path.trim();
+    let base_path = Path::new(base_path);
+
+    println!("Nombre del archivo o carpeta a buscar:");
+    
+    let mut target = String::new();
+    io::stdin().read_line(&mut target).expect("Fallo al leer la entrada.");
+    let target = target.trim();
+
+    match search_files(base_path, target) {
+        Ok(_) => {
+            println!("Búsqueda completada.");
+        }
+        Err(err) => {
+            eprintln!("Error: {}", err);
+        }
+    }
+}
