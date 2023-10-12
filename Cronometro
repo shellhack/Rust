@@ -1,0 +1,19 @@
+use std::io;
+use std::thread;
+use std::time::{Duration, Instant};
+
+fn main() {
+    println!("Cronómetro en Rust");
+    println!("Presione Enter para comenzar el cronómetro y nuevamente para detenerlo.");
+
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Fallo al leer la entrada.");
+    let start_time = Instant::now();
+
+    println!("Cronómetro en marcha. Presione Enter para detener.");
+
+    io::stdin().read_line(&mut input).expect("Fallo al leer la entrada.");
+    let elapsed_time = start_time.elapsed();
+
+    println!("Tiempo transcurrido: {} segundos.", elapsed_time.as_secs());
+}
