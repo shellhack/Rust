@@ -1,0 +1,30 @@
+use std::io;
+use std::str::FromStr;
+
+fn main() {
+    println!("Analizador de Texto en Rust");
+    println!("Ingrese el texto que desea analizar (termine con Ctrl+D en Unix/Linux o Ctrl+Z en Windows):");
+
+    let mut text = String::new();
+    io::stdin().read_to_string(&mut text).expect("Fallo al leer la entrada.");
+
+    let word_count = count_words(&text);
+    let character_count = text.chars().count();
+    let line_count = text.lines().count();
+    let paragraph_count = count_paragraphs(&text);
+
+    println!("Resultados del análisis:");
+    println!("Palabras: {}", word_count);
+    println!("Caracteres: {}", character_count);
+    println!("Líneas: {}", line_count);
+    println!("Párrafos: {}", paragraph_count);
+}
+
+fn count_words(text: &str) -> usize {
+    text.split_whitespace().count()
+}
+
+fn count_paragraphs(text: &str) -> usize {
+    let paragraphs: Vec<&str> = text.split("\n\n").collect();
+    paragraphs.len()
+}
