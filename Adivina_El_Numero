@@ -1,0 +1,34 @@
+extern crate rand;
+
+use rand::Rng;
+use std::io;
+
+fn main() {
+    println!("¡Bienvenido al Juego de Adivinanza en Rust!");
+    let secret_number = rand::thread_rng().gen_range(1..101);
+    let mut attempts = 0;
+
+    loop {
+        println!("Por favor, ingrese su adivinanza (un número entre 1 y 100):");
+        let mut guess = String::new();
+        io::stdin().read_line(&mut guess).expect("Fallo al leer la entrada.");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Entrada no válida. Debe ser un número entre 1 y 100.");
+                continue;
+            }
+        };
+
+        attempts += 1;
+
+        match guess.cmp(&secret_number) {
+            std::cmp::Ordering::Less => println!("Demasiado bajo."),
+            std::cmp::Ordering::Greater => println!("Demasiado alto."),
+            std::cmp::Ordering::Equal => {
+                println!("¡Felicitaciones! Adivinaste el número {} en {} intentos.", secret_number, attempts);
+                break;
+            }
+        }
+    }
+}
