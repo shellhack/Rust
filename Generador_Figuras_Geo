@@ -1,0 +1,94 @@
+use std::io;
+
+fn main() {
+    println!("Generador de Figuras Geométricas en Rust");
+    println!("Seleccione una opción:");
+    println!("1. Cuadrado");
+    println!("2. Círculo");
+    println!("3. Triángulo");
+    println!("4. Salir");
+
+    let mut choice = String::new();
+    io::stdin().read_line(&mut choice).expect("Fallo al leer la entrada.");
+    let choice: u32 = match choice.trim().parse() {
+        Ok(num) => num,
+        Err(_) => {
+            println!("Entrada no válida. Por favor, introduzca un número válido.");
+            return;
+        }
+    };
+
+    match choice {
+        1 => {
+            println!("Ingrese el tamaño del lado del cuadrado:");
+            let mut side_length = String::new();
+            io::stdin().read_line(&mut side_length).expect("Fallo al leer la entrada.");
+            let side_length: u32 = match side_length.trim().parse() {
+                Ok(num) => num,
+                Err(_) => {
+                    println!("Entrada no válida. Debe ser un número entero positivo.");
+                    return;
+                }
+            };
+
+            for _ in 0..side_length {
+                for _ in 0..side_length {
+                    print!("*");
+                }
+                println!();
+            }
+        }
+        2 => {
+            println!("Ingrese el radio del círculo:");
+            let mut radius = String::new();
+            io::stdin().read_line(&mut radius).expect("Fallo al leer la entrada.");
+            let radius: f64 = match radius.trim().parse() {
+                Ok(num) => num,
+                Err(_) => {
+                    println!("Entrada no válida. Debe ser un número real positivo.");
+                    return;
+                }
+            };
+
+            for i in 0..(2 * radius as i32) {
+                for j in 0..(2 * radius as i32) {
+                    let distance = ((i - radius as i32).pow(2) + (j - radius as i32).pow(2)) as f64;
+                    if distance <= radius.powi(2) {
+                        print("*");
+                    } else {
+                        print(" ");
+                    }
+                }
+                println!();
+            }
+        }
+        3 => {
+            println!("Ingrese la altura del triángulo:");
+            let mut height = String::new();
+            io::stdin().read_line(&mut height).expect("Fallo al leer la entrada.");
+            let height: u32 = match height.trim().parse() {
+                Ok(num) => num,
+                Err(_) => {
+                    println!("Entrada no válida. Debe ser un número entero positivo.");
+                    return;
+                }
+            };
+
+            for i in 1..=height {
+                for _ in 0..(height - i) {
+                    print(" ");
+                }
+                for _ in 0..(2 * i - 1) {
+                    print("*");
+                }
+                println!();
+            }
+        }
+        4 => {
+            println!("Saliendo del generador de figuras geométricas.");
+        }
+        _ => {
+            println!("Opción no válida. Por favor, seleccione una opción válida.");
+        }
+    }
+}
