@@ -1,0 +1,81 @@
+use std::io;
+
+fn main() {
+    loop {
+        println!("Calculadora en Rust");
+        println!("Seleccione una operación:");
+        println!("1. Suma");
+        println!("2. Resta");
+        println!("3. Multiplicación");
+        println!("4. División");
+        println!("5. Salir");
+
+        let mut choice = String::new();
+        io::stdin().read_line(&mut choice).expect("Fallo al leer la entrada.");
+        let choice: u32 = match choice.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Entrada no válida. Por favor, introduzca un número válido.");
+                continue;
+            }
+        };
+
+        if choice == 5 {
+            println!("Saliendo de la calculadora.");
+            break;
+        }
+
+        if choice < 1 || choice > 4 {
+            println!("Opción no válida. Por favor, seleccione una opción válida.");
+            continue;
+        }
+
+        let (operation, operator) = match choice {
+            1 => ("Suma", "+"),
+            2 => ("Resta", "-"),
+            3 => ("Multiplicación", "*"),
+            4 => ("División", "/"),
+            _ => ("", ""),
+        };
+
+        println!("Usted ha seleccionado {}.", operation);
+
+        println!("Ingrese el primer número:");
+        let mut num1 = String::new();
+        io::stdin().read_line(&mut num1).expect("Fallo al leer la entrada.");
+        let num1: f64 = match num1.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Entrada no válida. Por favor, introduzca un número válido.");
+                continue;
+            }
+        };
+
+        println!("Ingrese el segundo número:");
+        let mut num2 = String::new();
+        io::stdin().read_line(&mut num2).expect("Fallo al leer la entrada.");
+        let num2: f64 = match num2.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Entrada no válida. Por favor, introduzca un número válido.");
+                continue;
+            }
+        };
+
+        let result = match choice {
+            1 => num1 + num2,
+            2 => num1 - num2,
+            3 => num1 * num2,
+            4 => {
+                if num2 == 0.0 {
+                    println!("Error: No se puede dividir por cero.");
+                    continue;
+                }
+                num1 / num2
+            }
+            _ => 0.0,
+        };
+
+        println!("El resultado de {} {} {} es: {}", num1, operator, num2, result);
+    }
+}
